@@ -104,6 +104,10 @@ public class Glock : NetworkBehaviour
                 hitPlayer.Damage(DAMAGE);
                 HudManager.Singleton.HitMark();
             }
+            if (hit.transform.TryGetComponent<Box>(out Box box))
+            {
+                box.Damage();
+            }
         }
 
         ServerShoot(m_playerView.RaycastPositionFromHead(maxDistance));

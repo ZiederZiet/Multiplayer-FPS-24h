@@ -52,15 +52,23 @@ public class PlayerView : NetworkBehaviour
     public bool TryRaycastFromHead(out RaycastHit hit, float maxDistance = 100F)
     {
         RaycastHit[] hits = Physics.RaycastAll(m_syncHead.position, m_syncHead.forward, maxDistance);
-        for (int i = hits.Length - 1; i >= 0; i--)
+        hit = new RaycastHit();
+        if (hits.Length > 0)
         {
-            if (hits[i].collider.gameObject != gameObject)
+            float nearestDistance = maxDistance + 10F;
+            for (int i = 0; i < hits.Length; i++)
             {
-                hit = hits[i];
+                if (hits[i].transform != transform && hits[i].distance < nearestDistance)
+                {
+                    nearestDistance = hits[i].distance;
+                    hit = hits[i];
+                }
+            }
+            if (nearestDistance < maxDistance + 10F)
+            {
                 return true;
             }
         }
-        hit = new RaycastHit();
         return false;
     }
 

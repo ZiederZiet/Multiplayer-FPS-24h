@@ -29,7 +29,7 @@ public class PlayerBuilding : NetworkBehaviour
 
         if(m_playerView.TryRaycastFromHead(out RaycastHit hit, 12F))
         {
-            Vector3 position = hit.point - direction * 0.5F;
+            Vector3 position = hit.point - direction;
             GameObject newBox = Instantiate(m_boxPrefab, position, Quaternion.Euler(0F, transform.eulerAngles.y, 0F));
             InstanceFinder.ServerManager.Spawn(newBox, LocalConnection);
         }
