@@ -13,6 +13,7 @@ public class Player : NetworkBehaviour
 
     //[SerializeField] private GameObject[] m_nonLocalOnly;
     [SerializeField] private Transform m_head;
+    [SerializeField] private Transform m_syncHead;
     [SerializeField] private Renderer m_renderer;
 
     [SerializeField] private Flashlight m_flashlight;
@@ -39,10 +40,45 @@ public class Player : NetworkBehaviour
             headX = Mathf.Clamp(headX - (mouseY * SENSITIVITY), -90F, 90F);
             m_head.localEulerAngles = new Vector3(headX, 0F, 0F);
 
+            m_syncHead.rotation = m_head.rotation;
+
             if (Input.GetMouseButtonDown(1))
             {
                 m_flashlight.TriggerSwitch();
             }
+        }
+        else if (IsClient)
+        {
+            Vector3 raycastPosition = RaycastPositionFromHead();
+            m_flashlight.transform.up = raycastPosition - m_flashlight.transform.position;
+            m_glock.transform.right = raycastPosition - m_glock.transform.position;
+        }
+    }
+
+    public bool TryRaycastFromHead(out RaycastHit hit)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(m_syncHead.position, m_syncHead.forward, 100F);
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].collider.gameObject != gameObject)
+            {
+                hit = hits[i];
+                return true;
+            }
+        }
+        hit = new RaycastHit();
+        return false;
+    }
+
+    public Vector3 RaycastPositionFromHead()
+    {
+        if (TryRaycastFromHead(out RaycastHit hit))
+        {
+            return hit.point;
+        }
+        else
+        {
+            return m_syncHead.position + m_syncHead.forward * 100F;
         }
     }
 

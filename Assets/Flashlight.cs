@@ -20,8 +20,11 @@ public class Flashlight : NetworkBehaviour
     [SerializeField] private Material m_onMaterial;
     [SerializeField] private Material m_offMaterial;
 
+    private Material[] m_materials;
+
     void Start()
     {
+        m_materials = m_renderer.materials;
         m_on = true;
         UpdateOn();
     }
@@ -66,7 +69,8 @@ public class Flashlight : NetworkBehaviour
     {
         m_switch.localEulerAngles = m_on ? SWITCH_EULER_ON : SWITCH_EULER_OFF;
         m_light.SetActive(m_on);
-        m_renderer.materials[1] = m_on ? m_onMaterial : m_offMaterial;
+        m_materials[1] = m_on ? m_onMaterial : m_offMaterial;
+        m_renderer.materials = m_materials;
     }
 
 
