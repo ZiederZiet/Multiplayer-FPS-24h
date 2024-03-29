@@ -26,6 +26,10 @@ public class Player : NetworkBehaviour
             {
                 m_flashlight.TriggerSwitch();
             }
+            if (transform.position.y < -20F)
+            {
+                Die();
+            }
         }
     }
 
