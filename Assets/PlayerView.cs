@@ -40,11 +40,6 @@ public class PlayerView : NetworkBehaviour
             m_head.localEulerAngles = new Vector3(headX, 0F, 0F);
 
             m_syncHead.rotation = m_head.rotation;
-
-            if (Input.GetMouseButtonDown(1))
-            {
-                m_flashlight.TriggerSwitch();
-            }
         }
         else if (IsClient)
         {
@@ -57,7 +52,7 @@ public class PlayerView : NetworkBehaviour
     public bool TryRaycastFromHead(out RaycastHit hit, float maxDistance = 100F)
     {
         RaycastHit[] hits = Physics.RaycastAll(m_syncHead.position, m_syncHead.forward, maxDistance);
-        for (int i = 0; i < hits.Length; i++)
+        for (int i = hits.Length - 1; i >= 0; i--)
         {
             if (hits[i].collider.gameObject != gameObject)
             {

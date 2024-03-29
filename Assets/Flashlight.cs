@@ -73,6 +73,14 @@ public class Flashlight : NetworkBehaviour
         m_renderer.materials = m_materials;
     }
 
+    public void ResetSwitch()
+    {
+        if (!m_on)
+        {
+            TriggerSwitch();
+        }
+    }
+
 
     public override void OnStartClient()
     {

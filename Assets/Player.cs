@@ -6,12 +6,27 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
-    private static float MAX_HEALTH;
+    [SerializeField] private Flashlight m_flashlight;
+    [SerializeField] private Glock m_glock;
+
+    private static float MAX_HEALTH = 100F;
 
     private float m_health;
 
     private void Start()
     {
+        m_health = MAX_HEALTH;
+    }
+
+    private void Update()
+    {
+        if (IsOwner)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                m_flashlight.TriggerSwitch();
+            }
+        }
     }
 
     public void Damage(float amount)
@@ -41,6 +56,8 @@ public class Player : NetworkBehaviour
     public void Die()
     {
         m_health = MAX_HEALTH;
+        m_glock.ResetAmmo();
+        m_flashlight.ResetSwitch();
         transform.position = SpawnManager.Singleton.GetRandomSpawn().position;
     }
 }
