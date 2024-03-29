@@ -23,10 +23,8 @@ public class DayNightCycleManager : NetworkBehaviour
     {
         m_light = GetComponent<Light>();
         AtStart();
-        m_previousLight.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         m_time += Time.deltaTime;
@@ -71,6 +69,7 @@ public class DayNightCycleManager : NetworkBehaviour
     public override void OnStartClient()
     {
         RequestTimeUpdate();
+        m_previousLight.SetActive(false);
     }
 
     [ServerRpc]
@@ -86,6 +85,7 @@ public class DayNightCycleManager : NetworkBehaviour
         UpdatePosition();
     }
 
+
     private void OnEnable()
     {
         Start();
@@ -93,13 +93,6 @@ public class DayNightCycleManager : NetworkBehaviour
 
     private void OnDisable()
     {
-        m_previousLight.SetActive(true);
-        AtStart();
-    }
-
-    private void OnDestroy()
-    {
-        m_previousLight.SetActive(true);
         AtStart();
     }
 }

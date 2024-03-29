@@ -162,7 +162,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f19766cacf0bc984185b70dc69d47518, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1245,6 +1245,8 @@ GameObject:
   - component: {fileID: 3924999711581093695}
   - component: {fileID: 3924999711581093688}
   - component: {fileID: 5627056232729373456}
+  - component: {fileID: 5697657170648845146}
+  - component: {fileID: 5134640157499799464}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1304,6 +1306,8 @@ MonoBehaviour:
   - {fileID: 3924999711581093689}
   - {fileID: 3924999711581093695}
   - {fileID: 5627056232729373456}
+  - {fileID: 5697657170648845146}
+  - {fileID: 5134640157499799464}
   - {fileID: 7305171305240093292}
   - {fileID: 1949092258773101398}
   - {fileID: 3238998498697510779}
@@ -1409,8 +1413,8 @@ MonoBehaviour:
     Scale: 0
   _interpolation: 2
   _extrapolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
+  _enableTeleport: 1
+  _teleportThreshold: 10
   _scaleThreshold: 1
   _clientAuthoritative: 1
   _sendToOwner: 1
@@ -1440,7 +1444,7 @@ Rigidbody:
   m_GameObject: {fileID: 3924999711581093641}
   serializedVersion: 2
   m_Mass: 40
-  m_Drag: 0
+  m_Drag: 1.5
   m_AngularDrag: 0
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -1464,6 +1468,38 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 3924999711581093684}
   m_flashlight: {fileID: 1949092258773101398}
   m_glock: {fileID: 3238998498697510779}
+--- !u!114 &5697657170648845146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924999711581093641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 919e915eeee7f0d40bede28b7940356b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 4
+  _addedNetworkObject: {fileID: 3924999711581093684}
+  _networkObjectCache: {fileID: 3924999711581093684}
+--- !u!114 &5134640157499799464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3924999711581093641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dd78dba973dd644b952ba884f72300a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 5
+  _addedNetworkObject: {fileID: 3924999711581093684}
+  _networkObjectCache: {fileID: 3924999711581093684}
+  m_boxPrefab: {fileID: 8278609158502853261, guid: fcd19b06f0483d54ea17b0a1c0463b17,
+    type: 3}
 --- !u!1 &4409006988131850435
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,9 +1641,9 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.9590955, b: 0.7877358, a: 1}
-  m_Intensity: 0.9
-  m_Range: 31
-  m_SpotAngle: 42
+  m_Intensity: 14
+  m_Range: 120
+  m_SpotAngle: 80
   m_InnerSpotAngle: 26
   m_CookieSize: 10
   m_Shadows:
@@ -1647,7 +1683,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 1.6
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -2187,7 +2223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 3924999711581093684}
   _networkObjectCache: {fileID: 3924999711581093684}
   _componentConfiguration: 0
@@ -2395,7 +2431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d97d6bee68dcb147bf85a8569bcb3ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 5
+  _componentIndexCache: 7
   _addedNetworkObject: {fileID: 3924999711581093684}
   _networkObjectCache: {fileID: 3924999711581093684}
   m_switch: {fileID: 8073378010808435298}
@@ -2578,7 +2614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94e5309c8e7f834ab1eb134cb8ce4a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  _componentIndexCache: 8
   _addedNetworkObject: {fileID: 3924999711581093684}
   _networkObjectCache: {fileID: 3924999711581093684}
   m_playerView: {fileID: 3924999711581093689}
@@ -2597,7 +2633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 7
+  _componentIndexCache: 9
   _addedNetworkObject: {fileID: 3924999711581093684}
   _networkObjectCache: {fileID: 3924999711581093684}
   IgnoredParameters: []

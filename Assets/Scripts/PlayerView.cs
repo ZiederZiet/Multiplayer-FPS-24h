@@ -76,6 +76,16 @@ public class PlayerView : NetworkBehaviour
         }
     }
 
+    public Vector3 GetDirection()
+    {
+        return m_head.forward;
+    }
+
+    public Vector3 GetOrigin()
+    {
+        return m_head.position;
+    }
+
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -91,6 +101,15 @@ public class PlayerView : NetworkBehaviour
 
             m_glock.transform.localPosition = FIRST_PERSON_GLOCK_POSITION;
             m_flashlight.transform.localPosition = FIRST_PERSON_FLASHLIGHT_POSITION;
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        if (IsOwner)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

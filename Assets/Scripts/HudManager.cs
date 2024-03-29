@@ -6,6 +6,8 @@ public class HudManager : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text m_ammoText;
 
+    [SerializeField] private TMPro.TMP_Text m_fps;
+
     [SerializeField] private GameObject m_hitMarker;
     [SerializeField] private AudioSource m_hitMarkSound;
 
@@ -60,5 +62,7 @@ public class HudManager : MonoBehaviour
                 m_hitMarker.SetActive(false);
             }
         }
+
+        m_fps.text = (1F / Time.deltaTime).ToString("##.###");
     }
 }
