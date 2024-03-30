@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HudManager : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text m_ammoText;
 
     [SerializeField] private TMPro.TMP_Text m_fps;
+
+    [SerializeField] private TMPro.TMP_Text m_healthText;
+    [SerializeField] private Image m_healthBar;
 
     [SerializeField] private GameObject m_hitMarker;
     [SerializeField] private AudioSource m_hitMarkSound;
@@ -63,6 +67,12 @@ public class HudManager : MonoBehaviour
             }
         }
 
-        m_fps.text = (1F / Time.deltaTime).ToString("##.###");
+        m_fps.text = (1F / Time.deltaTime).ToString("##");
+    }
+
+    public void UpdateHealthBar(float amount, float maxAmount)
+    {
+        m_healthBar.fillAmount = amount / maxAmount;
+        m_healthText.text = "HP: " + ((int)amount).ToString() + " / " + ((int)maxAmount).ToString();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DayNightCycleManager : NetworkBehaviour
 {
-    private static float MAX_TIME = 120F;
+    private static float MAX_TIME = 190F;
 
     private static float START_TIME = 20F;
 
@@ -20,6 +20,8 @@ public class DayNightCycleManager : NetworkBehaviour
     private float m_time;
 
     private House[] m_houses;
+
+    private float m_updateTimer;
 
     void Start()
     {
@@ -46,12 +48,20 @@ public class DayNightCycleManager : NetworkBehaviour
             RefreshSettings();
         }
         UpdatePosition();
+        if (IsServer || IsHost)
+        {
+            m_updateTimer -= Time.deltaTime;
+            if (m_updateTimer <= 0F)
+            {
+                m_updateTimer += 5F;
+                TimeUpdate(m_time);
+            }
+        }
     }
 
     private void RefreshSettings()
     {
         RenderSettings.reflectionIntensity = m_day ? 0.6F : 0F;
-        RenderSettings.ambientIntensity = m_day ? 0.5F : 0F;
         m_light.intensity = m_day ? 5F : 0F;
         for (int i = 0; i < m_houses.Length; i++)
         {
@@ -62,6 +72,16 @@ public class DayNightCycleManager : NetworkBehaviour
     private void UpdatePosition()
     {
         transform.localEulerAngles = new Vector3(m_time / MAX_TIME * 360F, 30F, 0F);
+        if (m_time < NIGHT_TIME && m_time > NIGHT_TIME - (MAX_TIME / 8F))
+        {
+            float lerp = (m_time - (NIGHT_TIME - (MAX_TIME / 8F))) / (MAX_TIME / 8F);
+            RenderSettings.reflectionIntensity = Mathf.Lerp(0F, 0.6F, lerp);
+        }
+        if (m_time < MAX_TIME && m_time > MAX_TIME - (MAX_TIME / 8F))
+        {
+            float lerp = (m_time - (MAX_TIME - (MAX_TIME / 8F))) / (MAX_TIME / 8F);
+            RenderSettings.reflectionIntensity = Mathf.Lerp(0.6F, 0F, lerp);
+        }
     }
 
     private void AtStart()
@@ -79,7 +99,7 @@ public class DayNightCycleManager : NetworkBehaviour
         m_previousLight.SetActive(false);
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void RequestTimeUpdate()
     {
         TimeUpdate(m_time);

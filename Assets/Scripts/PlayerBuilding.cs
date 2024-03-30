@@ -42,6 +42,7 @@ public class PlayerBuilding : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
     private void TrySpawnBox()
     {
         Vector3 direction = m_playerView.GetDirection();

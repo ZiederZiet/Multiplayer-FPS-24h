@@ -13,11 +13,6 @@ public class Player : NetworkBehaviour
 
     private float m_health;
 
-    private void Start()
-    {
-        m_health = MAX_HEALTH;
-    }
-
     private void Update()
     {
         if (IsOwner)
@@ -54,12 +49,23 @@ public class Player : NetworkBehaviour
             {
                 Die();
             }
+            else
+            {
+                HudManager.Singleton.UpdateHealthBar(m_health, MAX_HEALTH);
+            }
         }
+    }
+
+    public override void OnStartClient()
+    {
+        m_health = MAX_HEALTH;
+        HudManager.Singleton.UpdateHealthBar(m_health, MAX_HEALTH);
     }
 
     public void Die()
     {
         m_health = MAX_HEALTH;
+        HudManager.Singleton.UpdateHealthBar(m_health, MAX_HEALTH);
         m_glock.ResetAmmo();
         m_flashlight.ResetSwitch();
         transform.position = SpawnManager.Singleton.GetRandomSpawn().position;

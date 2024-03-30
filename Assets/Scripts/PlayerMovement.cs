@@ -43,10 +43,8 @@ public class PlayerMovement : NetworkBehaviour
             {
                 m_rb.velocity += Vector3.up * JUMP_POWER;
                 m_ground = false;
-                m_jumpCouldown = 0.2F;
+                m_jumpCouldown = 0.4F;
             }
-
-            
         }
     }
     private void FixedUpdate()

@@ -36,7 +36,8 @@ public class Box : NetworkBehaviour
 
             if (m_parent == null)
             {
-                Despawn(gameObject);
+                ServerDespawn();
+                return;
             }
         }
     }
@@ -62,7 +63,14 @@ public class Box : NetworkBehaviour
         health--;
         if (health <= 0)
         {
-            Despawn(gameObject);
+            ServerDespawn();
+            return;
         }
+    }
+
+    [ServerRpc]
+    private void ServerDespawn()
+    {
+        Despawn(gameObject);
     }
 }
