@@ -15,7 +15,8 @@ public class Glock : NetworkBehaviour
 
     [SerializeField] private PlayerView m_playerView;
 
-    [SerializeField] private AudioSource m_audioSource;
+    [SerializeField] private AudioSource m_shootSource;
+    [SerializeField] private AudioSource m_reloadSource;
 
     [SerializeField] private LineRenderer m_tracer;
 
@@ -122,12 +123,12 @@ public class Glock : NetworkBehaviour
     [ObserversRpc]
     private void ObserverShoot(Vector3 hitPosition)
     {
-        m_audioSource.Stop();
-        m_audioSource.Play();
+        m_shootSource.Stop();
+        m_shootSource.Play();
         m_tracer.enabled = true;
         m_tracerLight.enabled = true;
         m_tracerTimer = 0.04F;
-        m_tracer.SetPosition(0, m_audioSource.transform.position);
+        m_tracer.SetPosition(0, m_shootSource.transform.position);
         m_tracer.SetPosition(1, hitPosition);
     }
 
@@ -137,6 +138,19 @@ public class Glock : NetworkBehaviour
         m_reloadingCouldowm = MAX_RELOADING_COULDOWN;
         m_networkAnimator.SetTrigger("Reload");
         m_animator.SetTrigger("Reload");
+        ServerReload();
+    }
+
+    [ServerRpc]
+    private void ServerReload()
+    {
+        ObserverReload();
+    }
+
+    [ObserversRpc]
+    private void ObserverReload()
+    {
+        m_reloadSource.Play();
     }
 
     private void RefreshAmmoText()

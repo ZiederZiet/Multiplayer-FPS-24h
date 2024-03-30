@@ -12,14 +12,20 @@ public class PlayerMovement : NetworkBehaviour
 
     private Rigidbody m_rb;
 
+    private Animator m_animator;
+
     private float m_horizontalInput;
     private float m_verticalInput;
 
     private bool m_ground;
 
+    private float m_jumpCouldown;
+
     void Start()
     {
         m_rb = GetComponent<Rigidbody>();
+
+        m_animator = GetComponent<Animator>();
     }
     void Update()
     {
@@ -28,10 +34,19 @@ public class PlayerMovement : NetworkBehaviour
             m_horizontalInput = Input.GetAxisRaw("Horizontal");
             m_verticalInput = Input.GetAxisRaw("Vertical");
 
-            if (m_ground && Input.GetKeyDown(KeyCode.Space))
+            if (m_jumpCouldown > 0F)
+            {
+                m_jumpCouldown -= Time.deltaTime;
+            }
+
+            if (m_ground && Input.GetKey(KeyCode.Space) && m_jumpCouldown <= 0F)
             {
                 m_rb.velocity += Vector3.up * JUMP_POWER;
+                m_ground = false;
+                m_jumpCouldown = 0.2F;
             }
+
+            
         }
     }
     private void FixedUpdate()
@@ -45,6 +60,8 @@ public class PlayerMovement : NetworkBehaviour
             }
 
             m_rb.velocity += (transform.right * m_horizontalInput + transform.forward * m_verticalInput).normalized * speed * Time.deltaTime;
+
+            m_animator.SetBool("Walking", Mathf.Abs(m_horizontalInput) + Mathf.Abs(m_verticalInput) > 0.3F);
         }
 
         //float speed = GetSpeed();
@@ -66,5 +83,10 @@ public class PlayerMovement : NetworkBehaviour
     private void OnCollisionExit(Collision collision)
     {
         m_ground = false;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        m_ground = true;
     }
 }

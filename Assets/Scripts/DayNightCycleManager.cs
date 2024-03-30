@@ -19,9 +19,12 @@ public class DayNightCycleManager : NetworkBehaviour
 
     private float m_time;
 
+    private House[] m_houses;
+
     void Start()
     {
         m_light = GetComponent<Light>();
+        m_houses = FindObjectsOfType<House>();
         AtStart();
     }
 
@@ -50,6 +53,10 @@ public class DayNightCycleManager : NetworkBehaviour
         RenderSettings.reflectionIntensity = m_day ? 0.6F : 0F;
         RenderSettings.ambientIntensity = m_day ? 0.5F : 0F;
         m_light.intensity = m_day ? 5F : 0F;
+        for (int i = 0; i < m_houses.Length; i++)
+        {
+            m_houses[i].UpdateDay(m_day);
+        }
     }
 
     private void UpdatePosition()

@@ -7,9 +7,17 @@ public class Box : NetworkBehaviour
 {
     private static float DISOLVING_TIME = 120F;
 
+    private Transform m_parent;
+
     private float m_disolvingTimer;
 
     private int health;
+
+    public void SetParent(Transform parent)
+    {
+        m_parent = parent;
+    }
+
     void Start()
     {
         m_disolvingTimer = DISOLVING_TIME / 3F;
@@ -24,6 +32,11 @@ public class Box : NetworkBehaviour
             {
                 m_disolvingTimer = DISOLVING_TIME / 3F;
                 ActualDamage();
+            }
+
+            if (m_parent == null)
+            {
+                Despawn(gameObject);
             }
         }
     }
